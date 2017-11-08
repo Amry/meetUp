@@ -1,7 +1,6 @@
-<<<<<<< HEAD
 # meetup
 
-> meet up project with vuejs
+> meet up project with vuejs and firebase
 
 ## Build Setup
 
