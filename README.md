@@ -1,5 +1,5 @@
 # meetup
-
+> the project is under development
 > meet up project with vuejs and firebase
 
 ## Build Setup

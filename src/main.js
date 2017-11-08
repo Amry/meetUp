@@ -6,6 +6,7 @@ import { store } from './store'
 import DateFilter from './filters/date'
 import * as firebase from 'firebase'
 import AlertComp from './components/Shared/Alert.vue'
+import FirebaseConfig from './firebaseConfig.js'
 
 Vue.use(Vuetify)
 Vue.config.productionTip = false
@@ -19,13 +20,7 @@ new Vue({
   store,
   render: h => h(App),
   created() {
-    firebase.initializeApp({
-      apiKey: 'AIzaSyAX6fQQ23g12W73wcQxfKbTtUZeMjCBCNA',
-      authDomain: 'devmeetup-2017.firebaseapp.com',
-      databaseURL: 'https://devmeetup-2017.firebaseio.com',
-      projectId: 'devmeetup-2017',
-      storageBucket: 'devmeetup-2017.appspot.com'
-    })
+    firebase.initializeApp(FirebaseConfig)
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.$store.dispatch('autoSignIn', user)
