@@ -57,21 +57,59 @@
                             </v-text-field> 
                         </v-flex>
                     </v-layout>
-                    <v-layout row>
-                        <v-flex xs12 sm6 offset-sm3>
-                            <h4>Choose a date and time</h4>
-                        </v-flex>
-                    </v-layout>
                     <v-layout row class="mb-2">
                         <v-flex xs12 sm6 offset-sm3>
-                            <v-date-picker v-model="date"></v-date-picker>
-                            <p>{{date}}</p>
+                            <v-menu
+                                lazy
+                                :close-on-content-click="false"
+                                v-model="dateMenu"
+                                transition="scale-transition"
+                                offset-y
+                                full-width
+                                :nudge-right="40"
+                                max-width="290px"
+                                min-width="290px">
+                                <v-text-field
+                                    slot="activator"
+                                    label="Pick a date"
+                                    v-model="date"
+                                    prepend-icon="event"
+                                    readonly
+                                ></v-text-field>
+                                <v-date-picker v-model="date" no-title scrollable actions autosave>
+                                <template scope="{ save, cancel }">
+                                    <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
+                                    <v-btn flat color="primary" @click="save">OK</v-btn>
+                                    </v-card-actions>
+                                </template>
+                                </v-date-picker>
+                            </v-menu>
                         </v-flex>
                     </v-layout>
                     <v-layout row>
                         <v-flex xs12 sm6 offset-sm3>
-                            <v-time-picker v-model="time" format="24hr"></v-time-picker>
-                            <p>{{time}}</p>
+                           <v-menu
+                                lazy
+                                :close-on-content-click="false"
+                                v-model="timeMenu"
+                                transition="scale-transition"
+                                offset-y
+                                full-width
+                                :nudge-right="40"
+                                max-width="290px"
+                                min-width="290px"
+                            >
+                                <v-text-field
+                                slot="activator"
+                                label="Pick a time"
+                                v-model="time"
+                                prepend-icon="access_time"
+                                readonly
+                                ></v-text-field>
+                                <v-time-picker format="24hr" v-model="time" autosave></v-time-picker>
+                            </v-menu>
                         </v-flex>
                     </v-layout>
                     <v-layout>
@@ -100,7 +138,9 @@
                 imageUrl: '',
                 date: new Date(),
                 time: new Date(),
-                image: null
+                image: null,
+                timeMenu: '',
+                dateMenu: ''
             }
         },
         computed: {
