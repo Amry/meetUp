@@ -7,12 +7,14 @@ import DateFilter from './filters/date'
 import * as firebase from 'firebase'
 import AlertComp from './components/Shared/Alert.vue'
 import FirebaseConfig from './firebaseConfig.js'
+import EditMeetupDialog from './components/Meetup/Edit/EditMeetupDialog.vue'
 
 Vue.use(Vuetify)
 Vue.config.productionTip = false
 
 Vue.filter('date', DateFilter)
 Vue.component('app-alert', AlertComp)
+Vue.component('app-edit-meetup-dialog', EditMeetupDialog)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
