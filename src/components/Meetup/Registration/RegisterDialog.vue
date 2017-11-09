@@ -56,10 +56,11 @@
         methods: {
             onConfirm() {
                 if (this.isRegistered) {
-                    this.$store.dispatch('unregsiterUserFromMeetup', this.meetupId)
+                    this.$store.dispatch('unregisterUserFromMeetup', this.meetupId)
                 } else {
                     this.$store.dispatch('registerUserForMeetup', this.meetupId)
                 }
+                this.registerDialog = true
             }
         }
     }

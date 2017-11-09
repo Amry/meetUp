@@ -25,7 +25,7 @@ export const store = new Vuex.Store({
             const registeredMeetups = state.user.registeredMeetups
             registeredMeetups.splice(registeredMeetups.findIndex(meetup =>
                 meetup.id === payload), 1)
-            Reflect.defineProperty(state.user.fbKeys, payload)
+            Reflect.deleteProperty(state.user.fbKeys, payload)
         },
         setLoadedMeetups(state, payload) {
             state.loadedMeetups = payload
@@ -81,7 +81,8 @@ export const store = new Vuex.Store({
         unregisterUserFromMeetup({ commit, getters }, payload) {
             commit('setLoading', true)
             const user = getters.user
-            if (user.fbKeys) {
+            if (!user.fbKeys) {
+                commit('setLoading', false)
                 return
             }
             const fbKey = user.fbKeys[payload]
@@ -228,6 +229,31 @@ export const store = new Vuex.Store({
                 registeredMeetups: [],
                 fbKeys: {}
             })
+        },
+        fetchUserData({ commit, getters }) {
+            commit('setLoading', true)
+            firebase.database().ref('/users/' + getters.user.id + '/registrations/')
+                .once('value')
+                .then(data => {
+                    const keyPairs = data.val()
+                    let registeredMeetups = []
+                    let swappedPairs = {}
+                    for (let key in keyPairs) {
+                        registeredMeetups.push(keyPairs[key])
+                        swappedPairs[keyPairs[key]] = key
+                    }
+                    const updatedUser = {
+                        id: getters.user.id,
+                        registeredMeetups: registeredMeetups,
+                        fbKeys: swappedPairs
+                    }
+                    commit('setLoading', false)
+                    commit('setUser', updatedUser)
+                })
+                .catch(error => {
+                    console.log(error)
+                    commit('setLoading', false)
+                })
         },
         logout({ commit }) {
             firebase.auth().signOut()
