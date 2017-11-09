@@ -31,7 +31,9 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn class="primary">Register</v-btn>
+                        <app-register-dialog 
+                            :meetupId = "meetup.id">
+                        </app-register-dialog>
                     </v-card-actions>
                 </v-card>
             </v-flex>
